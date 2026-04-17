@@ -14,6 +14,7 @@ import uz.brb.java26.entity.AuthUser;
 import uz.brb.java26.enums.Role;
 import uz.brb.java26.exception.ResourceNotFoundException;
 import uz.brb.java26.repository.AuthUserRepository;
+import uz.brb.java26.service.AuditService;
 import uz.brb.java26.service.AuthUserService;
 import uz.brb.java26.util.JWTUtil;
 
@@ -31,6 +32,7 @@ public class AuthUserServiceImpl implements AuthUserService {
     private final AuthUserRepository authUserRepository;
     private final AuthenticationManager authenticationManager;
     private final CustomUserDetailsService customUserDetailsService;
+    private final AuditService auditService;
 
     @Override
     public Response<?> register(RegisterRequest registerRequest) {
@@ -97,6 +99,17 @@ public class AuthUserServiceImpl implements AuthUserService {
 
     @Override
     public Response<?> me(AuthUser authUser) {
+        auditService.log(
+                "ME",
+                "ME",
+                authUser.getId(),
+                null,
+                authUser.getUsername(),
+                authUser.getUsername(),
+                "User found successfully",
+                "ipAddress"
+        );
+
         return Response.builder()
                 .code(HttpStatus.OK.value())
                 .status(HttpStatus.OK)
