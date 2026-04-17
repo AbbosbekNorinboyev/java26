@@ -17,6 +17,7 @@ import uz.brb.java26.repository.AuthUserRepository;
 import uz.brb.java26.service.AuditService;
 import uz.brb.java26.service.AuthUserService;
 import uz.brb.java26.util.JWTUtil;
+import uz.brb.java26.util.RequestUtils;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -33,6 +34,7 @@ public class AuthUserServiceImpl implements AuthUserService {
     private final AuthenticationManager authenticationManager;
     private final CustomUserDetailsService customUserDetailsService;
     private final AuditService auditService;
+    private final RequestUtils requestUtils;
 
     @Override
     public Response<?> register(RegisterRequest registerRequest) {
@@ -107,7 +109,7 @@ public class AuthUserServiceImpl implements AuthUserService {
                 authUser.getUsername(),
                 authUser.getUsername(),
                 "User found successfully",
-                "ipAddress"
+                requestUtils.getClientIp()
         );
 
         return Response.builder()
