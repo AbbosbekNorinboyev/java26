@@ -11,6 +11,8 @@ import uz.brb.java26.dto.request.LoginRequest;
 import uz.brb.java26.dto.request.RegisterRequest;
 import uz.brb.java26.dto.response.Response;
 import uz.brb.java26.entity.AuthUser;
+import uz.brb.java26.enums.ActionType;
+import uz.brb.java26.enums.EntityType;
 import uz.brb.java26.enums.Role;
 import uz.brb.java26.exception.ResourceNotFoundException;
 import uz.brb.java26.repository.AuthUserRepository;
@@ -22,6 +24,8 @@ import uz.brb.java26.util.RequestUtils;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
+import static uz.brb.java26.enums.ActionType.FOUND;
+import static uz.brb.java26.enums.EntityType.AUTH_USER;
 import static uz.brb.java26.util.PasswordHasher.hashPassword;
 import static uz.brb.java26.util.PasswordValidator.validatePassword;
 import static uz.brb.java26.util.Util.localDateTimeFormatter;
@@ -102,11 +106,11 @@ public class AuthUserServiceImpl implements AuthUserService {
     @Override
     public Response<?> me(AuthUser authUser) {
         auditService.log(
-                "ME",
-                "ME",
+                ActionType.FOUND,
+                EntityType.AUTH_USER,
                 authUser.getId(),
                 null,
-                authUser.getUsername(),
+                authUser,
                 authUser.getUsername(),
                 "User found successfully",
                 requestUtils.getClientIp()

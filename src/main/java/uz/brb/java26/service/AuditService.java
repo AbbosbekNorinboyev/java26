@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import uz.brb.java26.entity.AuditEventEntity;
+import uz.brb.java26.enums.ActionType;
+import uz.brb.java26.enums.EntityType;
 import uz.brb.java26.repository.AuditEventEntityRepository;
 
 import java.time.Instant;
@@ -15,8 +17,8 @@ public class AuditService {
     private final AuditEventEntityRepository auditRepository;
     private final ObjectMapper objectMapper;
 
-    public void log(String eventType,
-                    String entityType,
+    public void log(ActionType actionType,
+                    EntityType entityType,
                     Long entityId,
                     Object before,
                     Object after,
@@ -27,7 +29,7 @@ public class AuditService {
         try {
             AuditEventEntity audit = AuditEventEntity.builder()
                     .id(UUID.randomUUID())
-                    .eventType(eventType)
+                    .actionType(actionType)
                     .entityType(entityType)
                     .entityId(entityId)
                     .actor(actor)
