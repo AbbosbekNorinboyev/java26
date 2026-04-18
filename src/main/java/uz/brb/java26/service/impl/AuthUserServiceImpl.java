@@ -24,8 +24,6 @@ import uz.brb.java26.util.RequestUtils;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-import static uz.brb.java26.enums.ActionType.FOUND;
-import static uz.brb.java26.enums.EntityType.AUTH_USER;
 import static uz.brb.java26.util.PasswordHasher.hashPassword;
 import static uz.brb.java26.util.PasswordValidator.validatePassword;
 import static uz.brb.java26.util.Util.localDateTimeFormatter;
@@ -94,6 +92,18 @@ public class AuthUserServiceImpl implements AuthUserService {
         );
         UserDetails userDetails = customUserDetailsService.loadUserByUsername(loginRequest.getUsername());
         String jwtToken = jwtUtil.generateToken(userDetails.getUsername());
+
+        auditService.log(
+                ActionType.LOGIN_SUCCESS,
+                EntityType.AUTH_USER,
+                authUser.getId(),
+                null,
+                authUser,
+                authUser.getUsername(),
+                "User login successfully",
+                requestUtils.getClientIp()
+        );
+
         return Response.builder()
                 .code(HttpStatus.OK.value())
                 .status(HttpStatus.OK)
