@@ -2,6 +2,7 @@ package uz.brb.java26.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.NonNull;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import uz.brb.java26.dto.response.AuditEventResponse;
@@ -21,24 +22,23 @@ public class AuditEventServiceImpl implements AuditEventService {
     private final AuditEventEntityRepository auditEventEntityRepository;
 
     @Override
-    public Response<?> getAll() {
-        List<@NonNull AuditEventEntity> auditEventEntities = auditEventEntityRepository.findAll();
-        AuditEventResponse auditEventResponse = null;
-        for (AuditEventEntity auditEventEntity : auditEventEntities) {
-            auditEventResponse = AuditEventResponse.builder()
-                    .id(auditEventEntity.getId())
-                    .actionType(auditEventEntity.getActionType())
-                    .entityType(auditEventEntity.getEntityType())
-                    .entityId(auditEventEntity.getEntityId())
-                    .actor(auditEventEntity.getActor())
-                    .action(auditEventEntity.getAction())
-                    .beforeSnapshot(auditEventEntity.getBeforeSnapshot())
-                    .afterSnapshot(auditEventEntity.getAfterSnapshot())
-                    .description(auditEventEntity.getDescription())
-                    .ipAddress(auditEventEntity.getIpAddress())
-                    .occurredAt(auditEventEntity.getOccurredAt())
-                    .build();
-        }
+    public Response<?> getAll(Pageable pageable) {
+        List<@NonNull AuditEventEntity> auditEventEntities = auditEventEntityRepository.findAll(pageable).getContent();
+        List<AuditEventResponse> auditEventResponse = auditEventEntities.stream()
+                .map(auditEventEntity -> AuditEventResponse.builder()
+                        .id(auditEventEntity.getId())
+                        .actionType(auditEventEntity.getActionType())
+                        .entityType(auditEventEntity.getEntityType())
+                        .entityId(auditEventEntity.getEntityId())
+                        .actor(auditEventEntity.getActor())
+                        .action(auditEventEntity.getAction())
+                        .beforeSnapshot(auditEventEntity.getBeforeSnapshot())
+                        .afterSnapshot(auditEventEntity.getAfterSnapshot())
+                        .description(auditEventEntity.getDescription())
+                        .ipAddress(auditEventEntity.getIpAddress())
+                        .occurredAt(auditEventEntity.getOccurredAt())
+                        .build()
+                ).toList();
         return Response.builder()
                 .code(HttpStatus.OK.value())
                 .status(HttpStatus.OK)
