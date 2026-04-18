@@ -4,5 +4,5 @@ import org.springframework.data.domain.Pageable;
 import uz.brb.java26.dto.response.Response;
 
 public interface AuditEventService {
-    Response<?> getAll(Pageable pageable);
+    Response<?> getAll(Pageable pageable, String query);
 }

@@ -22,8 +22,8 @@ public class AuditEventServiceImpl implements AuditEventService {
     private final AuditEventEntityRepository auditEventEntityRepository;
 
     @Override
-    public Response<?> getAll(Pageable pageable) {
-        List<@NonNull AuditEventEntity> auditEventEntities = auditEventEntityRepository.findAll(pageable).getContent();
+    public Response<?> getAll(Pageable pageable, String query) {
+        List<@NonNull AuditEventEntity> auditEventEntities = auditEventEntityRepository.search(query, pageable).getContent();
         List<AuditEventResponse> auditEventResponse = auditEventEntities.stream()
                 .map(auditEventEntity -> AuditEventResponse.builder()
                         .id(auditEventEntity.getId())
