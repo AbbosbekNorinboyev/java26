@@ -1,4 +1,4 @@
-package uz.brb.java26.service;
+package uz.brb.java26.service.logic;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;

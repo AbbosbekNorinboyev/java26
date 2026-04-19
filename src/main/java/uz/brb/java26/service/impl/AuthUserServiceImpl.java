@@ -16,7 +16,7 @@ import uz.brb.java26.enums.EntityType;
 import uz.brb.java26.enums.Role;
 import uz.brb.java26.exception.ResourceNotFoundException;
 import uz.brb.java26.repository.AuthUserRepository;
-import uz.brb.java26.service.AuditService;
+import uz.brb.java26.service.logic.AuditService;
 import uz.brb.java26.service.AuthUserService;
 import uz.brb.java26.util.JWTUtil;
 import uz.brb.java26.util.RequestUtils;
