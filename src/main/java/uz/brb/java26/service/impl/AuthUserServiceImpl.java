@@ -135,4 +135,18 @@ public class AuthUserServiceImpl implements AuthUserService {
                 .timestamp(localDateTimeFormatter(LocalDateTime.now()))
                 .build();
     }
+
+    @Override
+    public Response<?> getByUsernameOrFullName(String name) {
+        AuthUser user = (AuthUser) authUserRepository.findByUsernameOrFullName(name)
+                .orElseThrow(() -> new ResourceNotFoundException("AuthUser not found by username or fullName: " + name));
+        return Response.builder()
+                .code(HttpStatus.OK.value())
+                .status(HttpStatus.OK)
+                .success(true)
+                .message("Current User")
+                .data(user)
+                .timestamp(localDateTimeFormatter(LocalDateTime.now()))
+                .build();
+    }
 }

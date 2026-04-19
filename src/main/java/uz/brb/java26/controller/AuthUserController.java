@@ -29,4 +29,9 @@ public class AuthUserController {
     public Response<?> me(@CurrentUser AuthUser authUser) {
         return authUserService.me(authUser);
     }
+
+    @GetMapping("/name")
+    Response<?> getByUsernameOrFullName(String name) {
+        return authUserService.getByUsernameOrFullName(name);
+    }
 }

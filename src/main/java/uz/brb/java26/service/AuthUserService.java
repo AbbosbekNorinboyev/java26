@@ -11,4 +11,6 @@ public interface AuthUserService {
     Response<?> login(LoginRequest loginRequest);
 
     Response<?> me(AuthUser authUser);
+
+    Response<?> getByUsernameOrFullName(String name);
 }
