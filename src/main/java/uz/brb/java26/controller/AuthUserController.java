@@ -31,7 +31,7 @@ public class AuthUserController {
     }
 
     @GetMapping("/name")
-    Response<?> getByUsernameOrFullName(String name) {
+    Response<?> getByUsernameOrFullName(@RequestParam String name) {
         return authUserService.getByUsernameOrFullName(name);
     }
 }

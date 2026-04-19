@@ -16,8 +16,8 @@ import uz.brb.java26.enums.EntityType;
 import uz.brb.java26.enums.Role;
 import uz.brb.java26.exception.ResourceNotFoundException;
 import uz.brb.java26.repository.AuthUserRepository;
-import uz.brb.java26.service.logic.AuditService;
 import uz.brb.java26.service.AuthUserService;
+import uz.brb.java26.service.logic.AuditService;
 import uz.brb.java26.util.JWTUtil;
 import uz.brb.java26.util.RequestUtils;
 
@@ -138,8 +138,9 @@ public class AuthUserServiceImpl implements AuthUserService {
 
     @Override
     public Response<?> getByUsernameOrFullName(String name) {
-        AuthUser user = (AuthUser) authUserRepository.findByUsernameOrFullName(name)
-                .orElseThrow(() -> new ResourceNotFoundException("AuthUser not found by username or fullName: " + name));
+        AuthUser user = authUserRepository.findByUsernameOrFullName(name)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("AuthUser not found by username or fullName: " + name));
         return Response.builder()
                 .code(HttpStatus.OK.value())
                 .status(HttpStatus.OK)
