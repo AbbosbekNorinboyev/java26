@@ -14,7 +14,8 @@ public interface AuthUserRepository extends JpaRepository<@NonNull AuthUser, @No
 
     @Query("""
             SELECT a FROM AuthUser a
-                WHERE LOWER(a.username) LIKE(CONCAT('%', :name, '%'))
+                WHERE :name IS NULL OR :name = ''
+                    OR LOWER(a.username) LIKE(CONCAT('%', :name, '%'))
                     OR LOWER(a.fullName) LIKE(CONCAT('%', :name, '%'))
             """)
     Optional<AuthUser> findByUsernameOrFullName(String name);

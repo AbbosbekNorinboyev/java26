@@ -10,15 +10,20 @@ import uz.brb.java26.service.ProductService;
 @RequestMapping("/api/products")
 @RequiredArgsConstructor
 public class ProductController {
-    private final ProductService service;
+    private final ProductService productService;
 
     @PostMapping
     Response<?> create(@RequestBody ProductRequest request) {
-        return service.create(request);
+        return productService.create(request);
     }
 
     @GetMapping("/lookup")
     public Response<?> lookup(@RequestParam String code) {
-        return service.lookup(code);
+        return productService.lookup(code);
+    }
+
+    @GetMapping()
+    public Response<?> getAll() {
+        return productService.getAll();
     }
 }

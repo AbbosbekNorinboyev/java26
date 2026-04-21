@@ -11,6 +11,7 @@ import uz.brb.java26.repository.ProductCategoryRepository;
 import uz.brb.java26.service.ProductCategoryService;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static uz.brb.java26.util.Util.localDateTimeFormatter;
 
@@ -41,6 +42,19 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
                 .code(HttpStatus.OK.value())
                 .status(HttpStatus.OK)
                 .success(true)
+                .message("Product category successfully created")
+                .timestamp(localDateTimeFormatter(LocalDateTime.now()))
+                .build();
+    }
+
+    @Override
+    public Response<?> getAll() {
+        List<ProductCategory> productCategories = productCategoryRepository.findAll();
+        return Response.builder()
+                .code(HttpStatus.OK.value())
+                .status(HttpStatus.OK)
+                .success(true)
+                .data(productCategories)
                 .message("Product category successfully created")
                 .timestamp(localDateTimeFormatter(LocalDateTime.now()))
                 .build();

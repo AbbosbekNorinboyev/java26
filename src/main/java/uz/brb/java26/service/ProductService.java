@@ -7,4 +7,6 @@ public interface ProductService {
     Response<?> create(ProductRequest request);
 
     Response<?> lookup(String code);
+
+    Response<?> getAll();
 }

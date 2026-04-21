@@ -14,6 +14,7 @@ import uz.brb.java26.repository.ProductRepository;
 import uz.brb.java26.service.ProductService;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static uz.brb.java26.util.Util.localDateTimeFormatter;
 
@@ -89,6 +90,19 @@ public class ProductServiceImpl implements ProductService {
                 .status(HttpStatus.OK)
                 .success(true)
                 .data(response)
+                .message("Product successfully save")
+                .timestamp(localDateTimeFormatter(LocalDateTime.now()))
+                .build();
+    }
+
+    @Override
+    public Response<?> getAll() {
+        List<Product> products = productRepository.findAll();
+        return Response.builder()
+                .code(HttpStatus.OK.value())
+                .status(HttpStatus.OK)
+                .success(true)
+                .data(products)
                 .message("Product successfully save")
                 .timestamp(localDateTimeFormatter(LocalDateTime.now()))
                 .build();
